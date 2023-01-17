@@ -10,7 +10,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-    const res = await fetch(`http://localhost:4000/courses/getAllCourses?lang=${params.lang}`);
+    const res = await fetch(`https://api.jsonbin.io/v3/b/63c6801edfc68e59d584b4a6`);
     const data = await res.json();
 
     return {
