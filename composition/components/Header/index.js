@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { pink } from '@mui/material/colors';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import ToggleButton from './Train';
+import ToggleButton from './train';
 import LinearProgress from '@mui/material/LinearProgress';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
