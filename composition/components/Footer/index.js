@@ -46,7 +46,7 @@ export default function StickyFooter() {
           position: "relative",
           marginTop: 15,
           bottom: 0,
-          width: "98vw",
+          width: "100vw",
           py: 3.5,
           px: 5,
           backgroundColor: "#37474f"
@@ -61,8 +61,6 @@ export default function StickyFooter() {
                   <Typography
                     variant="h6"
                     noWrap
-                    component="a"
-                    href="/"
                     sx={{
                       mr: 2,
                       marginLeft: 1,

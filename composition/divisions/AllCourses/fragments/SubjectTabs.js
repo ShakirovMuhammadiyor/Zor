@@ -16,7 +16,7 @@ const Tabb = styled(Tab)(({ theme }) => ({
 export default function SubjectTabs({ TabSelected, handleClick, data }) {
     return (
         <Tabs value={TabSelected} onChange={handleClick} textColor="secondary" indicatorColor="secondary">
-          {data.map((x, i) => <Tabb value={i} label={x} />)}
+          {data.map((x, i) => <Tabb key={i} value={i} label={x} />)}
         </Tabs>
     );
   }

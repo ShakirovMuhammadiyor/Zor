@@ -18,11 +18,17 @@ import Link from 'next/link';
 import Stack from '@mui/material/Stack';
 import UndoIcon from '@mui/icons-material/Undo';
 import DeleteIcon from '@mui/icons-material/Delete';
+import useSWR from 'swr';
+import LockIcon from '@mui/icons-material/Lock';
 
 export default function CourseBlock ({ courseData, subscribe, isUserSubscribed }) {
     let getSxForButton = (color, rotate) => {
       return {display: "inline-flex", transition: '.3s', "&.MuiChip-root:hover": {backgroundColor: color["600"], borderColor: color["600"], '& .MuiChip-avatar': {transform: rotate ? "rotate(180deg)" : ""}}, "& .MuiChip-label": {ml: -0.5}, "& .MuiChip-avatar": { transition: '.3s', color: "#ffffff" }, backgroundColor: color["400"], border: "2px solid " + color["200"], color: "#ffffff", ml: 1, pr: 0.5, pl: 0.5}
     }
+
+    let [notSignedInText, setNotSignedInText] = useState(0);
+
+    let { data: userinfo } = useSWR('userdata');
 
     let [showWarning, setShowWarning] = useState(false);
 
@@ -40,7 +46,7 @@ export default function CourseBlock ({ courseData, subscribe, isUserSubscribed }
               sx={getSxForButton(blueGrey)} avatar={<UndoIcon sx={{ scale: '0.8' }} />}
             />
             <Chip
-              label="Continue (Personal data will be deleted)" onClick={() => subscribe(-1, courseData.id)}
+              label="Continue (Personal data will be deleted)" onClick={() => {setShowWarning(false); subscribe(-1, courseData.id)}}
               sx={getSxForButton(red)} avatar={<DeleteIcon sx={{ scale: '0.7' }} />}
             /> 
         </>
@@ -57,7 +63,24 @@ export default function CourseBlock ({ courseData, subscribe, isUserSubscribed }
         sx={getSxForButton(lightGreen, 1)} avatar={<AddIcon sx={{ scale: '0.8' }} />} 
       />
     } else {
-      ActionButton = <Skeleton width={120} variant="rounded" animation="wave"><Chip/></Skeleton>
+      if (userinfo && userinfo.usertype == "guest") {
+        if (notSignedInText == 1) {
+          ActionButton = <Chip 
+            label={"Log in to access"} onMouseOver={() => setNotSignedInText(1)}
+            onMouseOut={() => setNotSignedInText(0)}
+            sx={getSxForButton(blueGrey, 0)} avatar={<LockIcon sx={{ scale: '0.6' }} />} 
+          />
+        } else {
+          ActionButton = <Chip 
+            label={"Subscribe"} onMouseOver={() => setNotSignedInText(1)}
+            onMouseOut={() => setNotSignedInText(0)}
+            sx={getSxForButton(lightGreen, 0)} avatar={<AddIcon sx={{ scale: '0.8' }} />} 
+        />
+        }
+        
+      } else {
+        ActionButton = <Skeleton width={120} variant="rounded" animation="wave"><Chip/></Skeleton>
+      }
     }
   
     return (

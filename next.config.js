@@ -31,6 +31,9 @@ const advancedHeaders = [
 ];
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    minimumCacheTTL: 2000,
+  },
   async headers() {
     return [
       {
@@ -41,7 +44,9 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+const withTM = require('next-transpile-modules')(['react-syntax-highlighter', 'react-plotly.js']);
+
+module.exports = withTM(nextConfig);
 
 
 // const withBundleAnalyzer = require('@next/bundle-analyzer')({

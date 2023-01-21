@@ -23,6 +23,10 @@ html {
       display: none !important;
 }
 
+video {
+      object-fit: contain !important;
+}
+
 body::-webkit-scrollbar {
       display: none;
 }
@@ -35,11 +39,34 @@ div#root {
       animation: none !important;
 }
 
+div#__next {
+      height: 100%;
+}
+
+a, a:visited, a:hover, a:active {
+      color: inherit;
+}
+
 a:link {
       color: #ad1457;
-}
+}     
 
 .katex .katex-html {
       font-weight: 500;
 }
+
+.disscroll::-webkit-scrollbar {
+      display: none !important;
+}
+
+.tab-enter {
+      opacity: 0;
+      transform: translateX(50px);
+  }
+  
+  .tab-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+  }
     

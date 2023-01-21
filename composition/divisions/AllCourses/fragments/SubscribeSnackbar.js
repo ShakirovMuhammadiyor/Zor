@@ -5,7 +5,11 @@ import Alert from '@mui/material/Alert';
 export default function SubscribeSnackbar({ state, closeSnackbar }) {
     let IndicatorStates = {
         "done": ["success", "#9ccc65", "Success message"],
-        "error": ["error", "", "Internal Server Error"]
+        "error": ["error", "", "Internal Server Error"],
+        "not_signed": ["warning", "", "User not signed in"],
+        "limit": ["info", "", "CourseSubscription Limit has reached"],
+        "bad_user": ["error", "", "Internal Server Error"],
+        "bad_course": ["error", "", "Internal Server Error"]
     }
 
     let getIndicator = (type) => {

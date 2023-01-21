@@ -6,6 +6,7 @@ import InlineDot from '../../../particles/InlineDot';
 import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Fragment } from 'react';
 
 export default function CourseSpecs({ coursedata }) {
     let colors = [["#ffc107", "#000000"], ["#673ab7", "#ffffff"]];
@@ -25,11 +26,11 @@ export default function CourseSpecs({ coursedata }) {
                 </Stack>
             </Stack>
             <Typography>{coursedata.Hashtags.map((hashtag, i) => {
-                return i != coursedata.Hashtags.length - 1 ? (<>{hashtag}<InlineDot /></>) : (<>{hashtag}</>);
+                return i != coursedata.Hashtags.length - 1 ? (<Fragment key={i}>{hashtag}<InlineDot /></Fragment>) : (<Fragment key={i}>{hashtag}</Fragment>);
             })}</Typography>
             <Stack direction="row" spacing={1.5} sx={{ pt: 1 }}>{
                 coursedata.Contributors.map((contributor, i) => {
-                    return (<Link href="/" >
+                    return (<Link href={`/en/courses/profile/${contributor.uid}`} key={i}>
                     <Chip
                         avatar={<Image style={{ borderRadius: "100%" }} width={35} height={35} alt="Remy Sharp" src={`/images/${contributor.picture}`} />}
                         label={contributor.name} size="small" sx={{ backgroundColor: colors[i][0], transition: ".4s", color: colors[i][1], '&:hover': {"& .MuiChip-label": {color: "#000000"}, backgroundColor: "#0000001f"} }}

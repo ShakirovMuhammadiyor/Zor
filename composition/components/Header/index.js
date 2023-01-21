@@ -18,6 +18,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import ToggleButton from './train';
 import LinearProgress from '@mui/material/LinearProgress';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { CSSTransition } from "react-transition-group";
+import useSWR from 'swr';
 
 import { createTheme, ThemeProvider, styled, alpha } from '@mui/material/styles';
 import Image from 'next/image';
@@ -72,6 +74,8 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 function ResponsiveAppBar({ username }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  let { data: user, isLoading } = useSWR('userdata');
+
   return (
     <AppBar position="sticky" sx={{ borderBottom: '1px solid #f4f4f4' }}>
       <LinearProgress sx={{ height: "6px" }} variant="determinate" color="secondary" value={100} />
@@ -109,15 +113,19 @@ function ResponsiveAppBar({ username }) {
             </Search>
           </Box>
 
-          <Box sx={{ mr: 7 }}>
+          <Box sx={{ mr: 3 }}>
             <ToggleButton />
           </Box>
 
+          <CSSTransition in={typeof user != "undefined"} timeout={300} classNames="tab" unmountOnExit>
           <Box sx={{ flexGrow: 0 }}>
+            {(user && user.usertype == "guest") && (
+              <Button size='large' sx={{"&:hover": {backgroundColor: "#37474f"}, backgroundColor: "#546e7a", borderRadius: 1.5, pr: 2, pl: 2}}>SIGN IN</Button>
+            )}
             <Tooltip title="Open settings">
-                <Button onClick={(event) => {setAnchorElUser(event.currentTarget)}} sx={{"&:hover": {backgroundColor: "#f4f4f4"}, backgroundColor: (Boolean(anchorElUser) ? "#f4f4f4" : "#ffffff"), p: 0, "& .MuiButton-endIcon": { marginLeft: 2 }, padding: "5px 17px", borderRadius: 1.5}} endIcon={<Image style={{ borderRadius: "100%" }} width={35} height={35} alt="Remy Sharp" src="/images/user.jpg" />}>
-                  <Typography sx={{color: "#880e4f", fontWeight: 700}}>{username}</Typography>
-                </Button>
+                  <Button onClick={(event) => {setAnchorElUser(event.currentTarget)}} sx={{"&:hover": {backgroundColor: "#f4f4f4"}, ml: 4, backgroundColor: (Boolean(anchorElUser) ? "#f4f4f4" : "#ffffff"), p: 0, "& .MuiButton-endIcon": { marginLeft: 2 }, padding: "5px 17px", borderRadius: 1.5}} endIcon={<Image style={{ borderRadius: "100%" }} width={35} height={35} alt="Remy Sharp" src="/images/user.png" />}>
+                    <Typography sx={{color: "#880e4f", fontWeight: 700, transition: '0.5s'}}>{typeof user != "undefined" ? user.name : ""}</Typography>
+                  </Button>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
@@ -142,6 +150,7 @@ function ResponsiveAppBar({ username }) {
               ))}
             </Menu>
           </Box>
+          </CSSTransition>
         </Toolbar>
       </Container>
     </AppBar>
